@@ -31,7 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="InfinityScript">
-      <HintPath>..\..\..\..\Desktop\nEmu releases\IAM.auto\InfinityScript.dll</HintPath>
+      <HintPath>..\..\..\..\Call of Duty Stuff\1107\IAM\InfinityScript.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />

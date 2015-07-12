@@ -250,22 +250,24 @@ using InfinityScript;
             string[] strArray1 = message.Split(' ');
             if (message.StartsWith("!") && Permisos.CanUseCommand(player,strArray1[0]))
             {
+                /*
                 if (strArray1[0] == "!devlogs")
                 {
                     using (var client = new WebClient())
                     {
-                        var responseString = client.DownloadString("http://www.nemu.tk/alfa.php?port=" + _sPort + "&warid=" + _warid);
+                        var responseString = client.DownloadString("http://www.nemu.tk/nemu/warreceiver.php?port=" + _sPort + "&warid=" + _warid);
                         Log.Write(LogLevel.All, responseString);
                     }
                     Log.Write(LogLevel.All, _sPort);
                     Log.Write(LogLevel.All, _warid);
                     Log.Write(LogLevel.All, ToHex(player.GUID));
                 }
+                 */
                 if (strArray1[0] == "!war")
                 {
                     if (strArray1[1] == "off")
                     {
-                        _warid = "";
+                        _warid = "6fbfd5e68d3306e51350bea0232f8fa5";
                         TellClient(player, "^3War: ^1Off");
                     }
                     else
@@ -280,7 +282,7 @@ using InfinityScript;
                         values["port"] = _sPort;
                         values["warid"] = _warid;
 
-                        var response = client.UploadValues("http://www.nemu.tk/alfa.php", values);
+                        var response = client.UploadValues("http://www.nemu.tk/nemu/warreceiver.php", values);
 
                         var responseString = Encoding.Default.GetString(response);
                     }
