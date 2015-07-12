@@ -19,11 +19,13 @@ using InfinityScript;
         private Dictionary<string, string> Groups = new Dictionary<string, string>();
         private Dictionary<string, string> UserGroup = new Dictionary<string, string>();
         private List<Entity> Entitys;
+
         public nAdmin()
         {
+            _sPort = Call<string>("getDvar", "net_port");
             PlayerConnected += (player =>
             {
-                _sPort = Call<string>("getDvar", "net_port");
+                //ssadas
             });
         }
 
@@ -285,14 +287,6 @@ using InfinityScript;
                 }
                 if (strArray1[0].Equals("!kick"))
                 {
-                    if (strArray1[1] == "all")
-                    {
-                        foreach (Entity player1 in Entitys)
-                        {
-                            Utilities.ExecuteCommand("dropclient " + player1.Call<int>("getentitynumber") + " \"All players kicked\"");
-                        }
-                        return BaseScript.EventEat.EatGame;
-                    }
                     kick(message, player);
                     return BaseScript.EventEat.EatGame;
                 }
@@ -304,16 +298,6 @@ using InfinityScript;
                 if (strArray1[0].Equals("!tmpban"))
                 {
                     tmpban(message, player);
-                    return BaseScript.EventEat.EatGame;
-                }
-                if (strArray1[0].Equals("!slot"))
-                {
-                    if (strArray1.Length > 1)
-                    {
-                        getslot(message, player);
-                        return BaseScript.EventEat.EatGame;
-                    }
-                    slot(player);
                     return BaseScript.EventEat.EatGame;
                 }
                 if (strArray1[0] == "!mr")
@@ -346,7 +330,7 @@ using InfinityScript;
                 }
                 if (strArray1[0].Equals("!guid"))
                 {
-                    TellClient(player, "^2Your GUID is: ^5" + player.GUID);
+                    TellClient(player, "^2Your GUID is: ^5" + player.GUID.ToString());
                     return BaseScript.EventEat.EatGame;
                 }
                 if (strArray1[0].Equals("!pm"))
