@@ -14,7 +14,7 @@ namespace nAdmin
         private Dictionary<string, string> comandos;
         private Dictionary<string, string> grupos;
         private static cIniArray oIni = new cIniArray();
-        private static string dirPerm = "plugins\\nAdmin\\permisos";
+        private static string dirPerm = "scripts\\nAdmin\\permisos";
         private static string ciniName = "scripts\\nAdmin\\config.ini";
 
         static Permisos()
@@ -35,6 +35,8 @@ namespace nAdmin
         public static  bool CanUseCommand(Entity player, string comando)
         {
             string coso = oIni.IniGet(Permisos.ciniName, "Permisos", GetGroup(player)+"Cmd", "");
+            Log.Info(GetGroup(player) + "Cmd");
+            Log.Info(comando);
             foreach (string cmd in coso.Split(','))
             { 
             if(cmd==comando){
@@ -47,11 +49,12 @@ namespace nAdmin
         public static  string GetGroup(Entity player)
         {
             string clienteMyId = ToHex(player.GUID);
-           
+            Log.Info(player.Name + " " + ToHex(player.GUID));
             string str1 = oIni.IniGet(Permisos.ciniName, "Permisos", "Grupos", "Admin,Mod,User");
   
-            foreach (string str2 in str1.Split(' '))
+            foreach (string str2 in str1.Split(','))
             {
+                Log.Info(Permisos.dirPerm + "\\" + clienteMyId + "." + str2);
                 if (File.Exists(Permisos.dirPerm + "\\" + clienteMyId + "." + str2))
                     return str2;
             }
@@ -63,7 +66,7 @@ namespace nAdmin
             try
             {
                 string clienteMyId = ToHex(player.GUID);
-                string path = "scripts\\nAdmin\\Permisos" + clienteMyId + "." + grupo;
+                string path = "scripts\\nAdmin\\Permisos\\" + clienteMyId + "." + grupo;
                 string grupoDeUsuario = GetGroup(player);
                 File.Delete(Permisos.dirPerm + "\\" + clienteMyId + "." + grupoDeUsuario);
                 File.Delete(Permisos.dirPerm + "\\" + clienteMyId + "." + grupo);

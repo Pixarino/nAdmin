@@ -8,7 +8,7 @@ using System.Collections.Specialized;
 using System.Net;
 using System.Text;
 using InfinityScript;
-
+    
     public class nAdmin : BaseScript
     {
         private string _sPort;
