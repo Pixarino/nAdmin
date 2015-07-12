@@ -24,11 +24,24 @@ namespace nAdmin
 
         public static void LoadPermisos()
         {
-
+            if (!File.Exists(ciniName))
+            {
+                oIni.IniWrite(Permisos.ciniName, "Permisos", "Grupos", "Admin,Mod,User");
+                oIni.IniWrite(Permisos.ciniName, "Permisos", "AdminCmd", "*");
+                oIni.IniWrite(Permisos.ciniName, "Permisos", "ModCmd", "!kick,!ban");
+                oIni.IniWrite(Permisos.ciniName, "Permisos", "UserCmd", "!help");
+            }
         }
         public static  bool CanUseCommand(Entity player, string comando)
         {
-            return true;
+            string coso = oIni.IniGet(Permisos.ciniName, "Permisos", GetGroup(player)+"Cmd", "");
+            foreach (string cmd in coso.Split(','))
+            { 
+            if(cmd==comando){
+                return true;
+            }
+            }
+            return false;
         }
 
         public static  string GetGroup(Entity player)
