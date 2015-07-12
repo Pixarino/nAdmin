@@ -21,9 +21,10 @@ using InfinityScript;
         private List<Entity> Entitys;
         public nAdmin()
         {
+            _sPort = Call<string>("getDvar", "net_port");
             PlayerConnected += (player =>
             {
-                _sPort = Call<string>("getDvar", "net_port");
+                
             });
         }
 
@@ -36,6 +37,7 @@ using InfinityScript;
         {
             //shit here
         }
+
 
         private void TellClient(Entity player, string message)
         {
@@ -346,7 +348,7 @@ using InfinityScript;
                 }
                 if (strArray1[0].Equals("!guid"))
                 {
-                    TellClient(player, "^2Your GUID is: ^5" + player.GUID);
+                    TellClient(player, "^2Your GUID is: ^5" + player.GUID.ToString());
                     return BaseScript.EventEat.EatGame;
                 }
                 if (strArray1[0].Equals("!pm"))
