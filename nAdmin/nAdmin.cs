@@ -21,6 +21,7 @@ using InfinityScript;
         private List<Entity> Entitys;
         public nAdmin()
         {
+            Permisos.LoadPermisos();
             _sPort = Call<string>("getDvar", "net_port");
             PlayerConnected += (player =>
             {
