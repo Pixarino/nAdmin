@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using InfinityScript;
 using System.IO;
+using System.Security.Cryptography;
 
 namespace nAdmin
 {
@@ -21,15 +22,34 @@ namespace nAdmin
         {
             
         }
-
+     
         public static void LoadPermisos()
         {
             if (!File.Exists(ciniName))
             {
-                oIni.IniWrite(Permisos.ciniName, "Permisos", "Grupos", "Admin,Mod,User");
-                oIni.IniWrite(Permisos.ciniName, "Permisos", "AdminCmd", "*");
-                oIni.IniWrite(Permisos.ciniName, "Permisos", "ModCmd", "!kick,!ban");
-                oIni.IniWrite(Permisos.ciniName, "Permisos", "UserCmd", "!help");
+                try
+                {
+                    oIni.IniWrite(Permisos.ciniName, "Permisos", "Grupos", "Admin,Mod,User");
+                    oIni.IniWrite(Permisos.ciniName, "Permisos", "AdminCmd", "*");
+                    oIni.IniWrite(Permisos.ciniName, "Permisos", "ModCmd", "!kick,!ban");
+                    oIni.IniWrite(Permisos.ciniName, "Permisos", "UserCmd", "!help");
+
+                    MD5 md5 = System.Security.Cryptography.MD5.Create();
+                    byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes((Environment.TickCount & Int32.MaxValue).ToString());
+                    byte[] hash = md5.ComputeHash(inputBytes);
+
+                    // step 2, convert byte array to hex string
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < hash.Length; i++)
+                    {
+                        sb.Append(hash[i].ToString("X2"));
+                    }
+                    oIni.IniWrite(Permisos.ciniName, "nEmu", "ServerKey", sb.ToString());
+                }
+                catch (Exception e)
+                {
+                    Log.Error(e.Message);
+                }
             }
         }
         public static  bool CanUseCommand(Entity player, string comando)
