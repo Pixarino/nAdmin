@@ -11,6 +11,171 @@ using InfinityScript;
     
     public class nAdmin : BaseScript
     {
+        private int MAPS = 16;
+        private string[] mapdev = new string[16]
+        {
+          "mp_alpha",
+          "mp_bootleg",
+          "mp_bravo",
+          "mp_carbon",
+          "mp_dome",
+          "mp_exchange",
+          "mp_hardhat",
+          "mp_interchange",
+          "mp_lambeth",
+          "mp_mogadishu",
+          "mp_paris",
+          "mp_plaza2",
+          "mp_radar",
+          "mp_seatown",
+          "mp_underground",
+          "mp_village"  
+        };
+
+        private string[] mapuser = new string[16]
+        {
+          "lockdown",
+          "bootleg",
+          "mission",
+          "carbon",
+          "dome",
+          "downturn",
+          "hardhat",
+          "interchange",
+          "fallen",
+          "bakaara",
+          "resistance",
+          "arkaden",
+          "outpost",
+          "seatown",
+          "underground",
+          "village"  
+        };
+
+        private string[] gtdev = new string[17]
+        {
+          "DEM",
+          "SNIP",
+          "CTF",
+          "DOM",
+          "DZ",
+          "FFA",
+          "GG",
+          "HQ",
+          "INF",
+          "JUG",
+          "KC",
+          "OIC",
+          "SAB",
+          "SD",
+          "TDM",
+          "TDEF",
+          "TJ"
+        };
+        private string[] gtuser = new string[17]
+        {
+          "Demolition",
+          "iSnipe",
+          "Capture_the_Flag",
+          "Domination",
+          "Drop_Zone",
+          "Free-For-All",
+          "Gun_Game",
+          "Headquarters",
+          "Infected",
+          "Juggernaut",
+          "Kill_Confirmed",
+          "One_in_the_chamber",
+          "Sabotage",
+          "Search & Destroy",
+          "Team_Deathmatch",
+          "Team_Defender",
+          "Team_Juggernaut"
+        };
+        private int gtByName = -1;
+        private const int GTS = 17;
+
+        /*
+        private string[] mapdev = new string[36]
+        {
+        "mp_burn_ss",
+        "mp_crosswalk_ss",
+        "mp_six_ss",
+        "mp_boardwalk",
+        "mp_moab",
+        "mp_nola",
+        "mp_roughneck",
+        "mp_shipbreaker",
+        "mp_alpha",
+        "mp_bootleg",
+        "mp_bravo",
+        "mp_carbon",
+        "mp_dome",
+        "mp_exchange",
+        "mp_hardhat",
+        "mp_interchange",
+        "mp_lambeth",
+        "mp_mogadishu",
+        "mp_paris",
+        "mp_plaza2",
+        "mp_radar",
+        "mp_seatown",
+        "mp_underground",
+        "mp_village",
+        "mp_cement",
+        "mp_italy",
+        "mp_meteora",
+        "mp_morningwood",
+        "mp_overwatch",
+        "mp_park",
+        "mp_qadeem",
+        "mp_aground_ss",
+        "mp_courtyard_ss",
+        "mp_hillside_ss",
+        "mp_restrepo_ss",
+        "mp_terminal_cls"
+        
+
+        private string[] mapuser = new string[36]
+        {
+        "u-turn",
+        "intersection",
+        "vortex",
+        "boardwalk",
+        "gulch",
+        "parish",
+        "off shore",
+        "decommision",
+        "lockdown",
+        "bootleg",
+        "mission",
+        "carbon",
+        "dome",
+        "downturn",
+        "hardhat",
+        "interchange",
+        "fallen",
+        "bakaara",
+        "resistance",
+        "arkaden",
+        "outpost",
+        "seatown",
+        "underground",
+        "village",
+        "Foundation",
+        "Piazza",
+        "Sanctuary",
+        "Black Box",
+        "Overwatch",
+        "Liberation",
+        "Oasis",
+        "Aground",
+        "Erosion",
+        "Getaway",
+        "Lookout",
+        "Terminal"
+        };*/
+
         private string _sPort;
         private string _warid;
         public string admins;
@@ -27,6 +192,83 @@ using InfinityScript;
             {
                 
             });
+        }
+
+
+        public bool CambioMapa(string mapName, Entity issuer)
+        {
+            int mapByName = GetMapByName(mapName);
+            if (mapByName != -1)
+             Utilities.ExecuteCommand("map " + mapdev[mapByName]);
+            else 
+                TellClient(issuer.ClientNum, "Nombre de Mapa Invalido");
+            return false;
+        }
+
+        public bool CambioGame(string gtName, Entity issuer)
+        {
+            try
+            {
+                gtByName = GetGameByName(gtName);
+                if (gtByName != -1)
+                {
+                    WriteDSPL("*", gtdev[gtByName]);
+                    Utilities.ExecuteCommand("map_rotate");
+                    return true;
+                }
+                else if (File.Exists("admin\\" + gtName + "_default.dsr"))
+                {
+                    WriteDSPL("*", gtName);
+                    Utilities.ExecuteCommand("map_rotate");
+                    return true;
+                }
+                else
+                {
+                    TellClient(issuer.ClientNum, "Nombre de Juego Invalido", true);
+                    return false;
+                }
+            }
+            catch(Exception e)
+            {
+                Log.Write(LogLevel.All, "CambioGame: " + e.Message);
+            }
+            return false;
+        }
+
+        private int GetMapByName(string map)
+        {
+            MAPS = mapdev.Length;
+            string[] strArray = mapuser;
+            for (int index = 0; index < MAPS; ++index)
+            {
+                if (strArray[index].StartsWith(map, StringComparison.InvariantCultureIgnoreCase))
+                    return index;
+            }
+            return -1;
+        }
+
+        private int GetGameByName(string map)
+        {
+            string[] strArray = gtuser;
+            for (int index = 0; index < GTS; ++index)
+            {
+                if (strArray[index].ToLower().Contains(map.ToLower()))
+                    return index;
+            }
+            return -1;
+        }
+
+        private void WriteDSPL(string map, string gt)
+        {
+            try
+            {
+                File.WriteAllText("admin\\default.dspl", map + "," + gt + "_default,1");
+                File.WriteAllText("players2\\default.dspl", map + "," + gt + "_default,1");
+            }
+            catch (Exception ex)
+            {
+                Log.Write(LogLevel.All, "Error al escribir DSPL!:" + ex);
+            }
         }
 
         public static string ToHex(long value)
