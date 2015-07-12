@@ -24,15 +24,6 @@ using InfinityScript;
             PlayerConnected += (player =>
             {
                 _sPort = Call<string>("getDvar", "net_port");
-
-                /* Conectandose al masterserver para sacar la lista de players en la war.
-                using (var client = new WebClient())
-                {
-                    var responseString = client.DownloadString("");
-                    Log.Write(LogLevel.All, responseString);
-                    
-                }                
-                */
             });
         }
 
@@ -45,51 +36,6 @@ using InfinityScript;
         {
             //shit here
         }
-
-        public override void OnSay(Entity player, string name, string messagetyped)
-        {
-            if (messagetyped.ToLower().StartsWith("!war"))
-            {
-                string[] msgAry = messagetyped.ToLower().Split(' ');
-
-                if (msgAry[1] == "off")
-                {
-                    _warid = "";
-                    Call<string>("iprintlnbold", "^3War: ^1Off");
-                }
-                else
-                {
-                    _warid = msgAry[1];
-                    Call<string>("iprintlnbold", "^3WarID: ^2" + _warid);
-                }
-
-                /*
-                using (List<Entity>.Enumerator enumerator = Entitys.GetEnumerator())
-                {
-                    while (enumerator.MoveNext())
-                    {
-                        Entity current = enumerator.Current;
-                        if (!IsInWar(current))
-                        Utilities.ExecuteCommand("dropclient " + ToHex(player.GUID) + " \"No estas en la lista de la war.\"");
-                    }
-                }
-                */
-
-
-            }
-            else if (messagetyped.ToLower().StartsWith("!devlogs"))
-            {
-                using (var client = new WebClient())
-                {
-                    var responseString = client.DownloadString("http://www.nemu.tk/alfa.php?port=" + _sPort + "&warid=" + _warid);
-                    Log.Write(LogLevel.All, responseString);
-                }
-                Log.Write(LogLevel.All, _sPort);
-                Log.Write(LogLevel.All, _warid);
-                Log.Write(LogLevel.All, ToHex(player.GUID));
-            }
-        }
-
 
         private void TellClient(Entity player, string message)
         {
