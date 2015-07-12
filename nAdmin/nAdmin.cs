@@ -201,7 +201,7 @@ using InfinityScript;
             if (mapByName != -1)
              Utilities.ExecuteCommand("map " + mapdev[mapByName]);
             else 
-                TellClient(issuer.ClientNum, "Nombre de Mapa Invalido");
+                TellClient(issuer.ClientNum, "Nombre de Mapa Invalido", true);
             return false;
         }
 
