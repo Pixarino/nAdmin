@@ -7,7 +7,8 @@ using InfinityScript;
 
 namespace nAdmin
 {
-    public class Class1
+    public class nAdmin : BaseScript
     {
+        //puto
     }
 }
