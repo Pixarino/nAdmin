@@ -312,9 +312,10 @@ using InfinityScript;
                 else
                 {
                     if (strArray.Length > 2)
-                        return;
-                    Utilities.ExecuteCommand("dropclient " + byName.Call<int>("getentitynumber") + " \"^2Shoma kick shodid\"");
-                    ServerSay("^2<playername> ^3has been kicked ^7by ^1<kicker>".Replace("<playername>", byName.Name).Replace("<kicker>", player.Name));
+                    {
+                        Utilities.ExecuteCommand("dropclient " + byName.Call<int>("getentitynumber") + " \"^2Shoma kick shodid\"");
+                        ServerSay("^2<playername> ^3has been kicked ^7by ^1<kicker>".Replace("<playername>", byName.Name).Replace("<kicker>", player.Name));
+                    }
                 }
             }
         }
@@ -369,9 +370,10 @@ using InfinityScript;
                 else
                 {
                     if (strArray.Length > 2)
-                        return;
-                    Utilities.ExecuteCommand("banclient " + byName.Call<int>("getentitynumber"));
-                    ServerSay("^2<playername> ^3has been banned ^7by ^1<kicker>".Replace("<playername>", byName.Name).Replace("<kicker>", player.Name));
+                    {
+                        Utilities.ExecuteCommand("banclient " + byName.Call<int>("getentitynumber"));
+                        ServerSay("^2<playername> ^3has been banned ^7by ^1<kicker>".Replace("<playername>", byName.Name).Replace("<kicker>", player.Name));   
+                    }
                 }
             }
         }
@@ -405,9 +407,10 @@ using InfinityScript;
                 else
                 {
                     if (strArray.Length > 2)
-                        return;
-                    Utilities.ExecuteCommand("tempbanclient " + byName.Call<int>("getentitynumber") + " \"nEmu : Player TempBanned!\"");
+                    {
+                        Utilities.ExecuteCommand("tempbanclient " + byName.Call<int>("getentitynumber") + " \"nEmu : Player TempBanned!\"");
                         ServerSay("^2<playername> ^3has been temp banned ^7by ^1<kicker>".Replace("<playername>", byName.Name).Replace("<kicker>", player.Name));
+                    }
                 }
             }
         }
@@ -435,9 +438,10 @@ using InfinityScript;
                 else
                 {
                     if (strArray.Length > 2)
-                        return;
-                    Utilities.ExecuteCommand("dropclient " + byName.Call<int>("getentitynumber") + " \"nEmu : Sorry Slot\"");
-                    ServerSay("^2<playername> ^3has been kicked ^7for ^1Slot ^7by ^1<kicker>".Replace("<playername>", byName.Name).Replace("<kicker>", player.Name));
+                    {
+                        Utilities.ExecuteCommand("dropclient " + byName.Call<int>("getentitynumber") + " \"nEmu : Sorry Slot\"");
+                        ServerSay("^2<playername> ^3has been kicked ^7for ^1Slot ^7by ^1<kicker>".Replace("<playername>",byName.Name).Replace("<kicker>", player.Name));
+                    }
                 }
             }
         }
@@ -481,8 +485,9 @@ using InfinityScript;
                 else
                 {
                     if (strArray.Length > 2)
-                        return;
-                    Utilities.RawSayTo(byName, BotName + "^3[PM]^7:^2 " + player.Name + " : ^1" + message.Replace(strArray[0], "").Replace(strArray[1], ""));
+                    {
+                        Utilities.RawSayTo(byName,BotName + "^3[PM]^7:^2 " + player.Name + " : ^1" + message.Replace(strArray[0], "").Replace(strArray[1], ""));
+                    }
                 }
             }
         }
