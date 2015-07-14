@@ -195,17 +195,17 @@ using InfinityScript;
         }
 
 
-        public bool CambioMapa(string mapName, Entity issuer)
+        public bool CambioMapa(string mapName, Entity player)
         {
             int mapByName = GetMapByName(mapName);
             if (mapByName != -1)
              Utilities.ExecuteCommand("map " + mapdev[mapByName]);
             else 
-                TellClient(issuer.ClientNum, "Nombre de Mapa Invalido", true);
+                TellClient(player, "Nombre de Mapa Invalido");
             return false;
         }
 
-        public bool CambioGame(string gtName, Entity issuer)
+        public bool CambioGame(string gtName, Entity player)
         {
             try
             {
@@ -224,7 +224,7 @@ using InfinityScript;
                 }
                 else
                 {
-                    TellClient(issuer.ClientNum, "Nombre de Juego Invalido", true);
+                    TellClient(player, "Nombre de Juego Invalido");
                     return false;
                 }
             }
