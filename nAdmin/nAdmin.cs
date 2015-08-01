@@ -515,7 +515,6 @@ using InfinityScript;
                     Log.Write(LogLevel.All, _warid);
                     Log.Write(LogLevel.All, ToHex(player.GUID));
                 }
-                 * 
                  */
                 if (strArray1[0] == "!war")
                 {
