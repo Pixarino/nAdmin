@@ -230,7 +230,7 @@ using InfinityScript;
             }
             catch(Exception e)
             {
-                Log.Write(LogLevel.All, "CambioGame: " + e.Message);
+                Log.Info("CambioGame: " + e.Message);
             }
             return false;
         }
@@ -267,7 +267,7 @@ using InfinityScript;
             }
             catch (Exception ex)
             {
-                Log.Write(LogLevel.All, "Error al escribir DSPL!:" + ex);
+                Log.Info("Error al escribir DSPL!:" + ex);
             }
         }
 
@@ -288,37 +288,6 @@ using InfinityScript;
             Utilities.RawSayTo(player, BotName + "^3[PM] ^7: " + message);
         }
 
-        private void kick(string message, Entity player)
-        {
-            string[] strArray = message.Split(' ');
-            string newValue = "";
-            if (strArray.Length <= 1)
-            {
-                TellClient(player, "^1Enter a playername");
-            }
-            else
-            {
-                Entity byName = FindByName(strArray[1]);
-                if (byName == null)
-                    TellClient(player, "^1That user wasn't found or multiple were found.");
-                else if (strArray.Length > 2)
-                {
-                    for (int index = 2; index < strArray.Length; ++index)
-                        newValue = newValue + " " + strArray[index];
-                    Utilities.ExecuteCommand("dropclient " + byName.Call<int>("getentitynumber") + " \"" + newValue + "\"");
-                    string str1 = "^2<playername> ^3has been kicked ^7for ^1<reason> ^7by ^1<kicker>";
-                    ServerSay(str1.Replace("<playername>", byName.Name).Replace("<reason>", newValue).Replace("<kicker>", player.Name));
-                }
-                else
-                {
-                    if (strArray.Length > 2)
-                    {
-                        Utilities.ExecuteCommand("dropclient " + byName.Call<int>("getentitynumber") + " \"^2Shoma kick shodid\"");
-                        ServerSay("^2<playername> ^3has been kicked ^7by ^1<kicker>".Replace("<playername>", byName.Name).Replace("<kicker>", player.Name));
-                    }
-                }
-            }
-        }
         public void ServerSay(string message)
         {
             Utilities.RawSayAll(BotName + message);
@@ -339,6 +308,43 @@ using InfinityScript;
             if (num <= 1 && num == 1)
                 return entity1;
             return null;
+        }
+
+        private void kick(string message, Entity player)
+        {
+            string[] strArray = message.Split(' ');
+            string newValue = "";
+            if (strArray.Length <= 1)
+            {
+                TellClient(player, "^1Enter a playername");
+            }
+            else
+            {
+                Entity byName = FindByName(strArray[1]);
+                if (byName == null)
+                    TellClient(player, "^1That user wasn't found or multiple were found.");
+                else if (strArray.Length > 2)
+                {
+                    for (int index = 2; index < strArray.Length; ++index)
+                        newValue = newValue + " " + strArray[index];
+                    Utilities.ExecuteCommand("dropclient " + byName.Call<int>("getentitynumber"));
+                    string str1 = "^2<playername> ^3has been kicked ^7for ^1<reason> ^7by ^1<kicker>";
+                    foreach (string str2 in File.ReadAllLines("scripts\\\\nEmu\\\\nEmu.cfg"))
+                    {
+                        if (str2.StartsWith("kickmessage"))
+                            str1 = str2.Split('=')[1];
+                    }
+                    ServerSay(str1.Replace("<playername>", byName.Name).Replace("<reason>", newValue).Replace("<kicker>", player.Name));
+                }
+                else
+                {
+                    if (strArray.Length > 2)
+                    {
+                        Utilities.ExecuteCommand("dropclient " + byName.Call<int>("getentitynumber"));
+                        ServerSay("^2<playername> ^3has been kicked ^7by ^1<kicker>".Replace("<playername>", byName.Name).Replace("<kicker>", player.Name));
+                    }
+                }
+            }
         }
 
         private void ban(string message, Entity player)
@@ -516,11 +522,15 @@ using InfinityScript;
                     {
                         _warid = "6fbfd5e68d3306e51350bea0232f8fa5";
                         TellClient(player, "^3War: ^1Off");
+                        Log.Info(BotName + "Puerto: " + _sPort);
+                        Log.Info(BotName + "WarID: " + _warid);  
                     }
                     else
                     {
                         _warid = strArray1[1];
                         TellClient(player, "^3WarID: ^2" + _warid);
+                        Log.Info(BotName + "Puerto: " + _sPort);
+                        Log.Info(BotName + "WarID: " + _warid);
                     }
                     
                     using (var client = new WebClient())
@@ -537,15 +547,7 @@ using InfinityScript;
                 }
                 if (strArray1[0].Equals("!kick"))
                 {
-                    if (strArray1[1] == "all")
-                    {
-                        foreach (Entity player1 in Entitys)
-                        {
-                            Utilities.ExecuteCommand("dropclient " + player1.Call<int>("getentitynumber") + " \"All players kicked\"");
-                        }
-                        return BaseScript.EventEat.EatGame;
-                    }
-                    kick(message, player);
+                    
                     return BaseScript.EventEat.EatGame;
                 }
                 if (strArray1[0].Equals("!ban"))
