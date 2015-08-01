@@ -1,2 +1,2 @@
 # nAdmin
-MW3 based infinityscript plugin.
+MW3 infinityscript based plugin.
